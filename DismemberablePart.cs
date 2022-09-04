@@ -10,7 +10,10 @@ namespace ForGlory {
 
         public void DismemberPart()
         {
-            Debug.Log("chop");
+            if (!FGMain.DecapitationEnabled)
+            {
+                return;
+            }
             if (transform == unit.data.leftArm) {
                 unit.data.leftHand.gameObject.SetActive(false);
                 for (int i = 0; i < unit.data.leftHand.childCount; i++) {

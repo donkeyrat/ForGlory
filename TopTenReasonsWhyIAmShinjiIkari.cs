@@ -72,7 +72,6 @@ namespace ForGlory {
 						scale.startSizeMultiplier *= FGMain.BloodSize;
 					}
 					if (componentInParent.GetComponentInChildren<DismemberablePart>() && unit.Team != ___ownUnit.Team && __instance.damage >= unit.data.health * 0.2f) {
-						Debug.Log("die");
 						var partsOrdered = (
 							from DismemberablePart part 
 								in componentInParent.GetComponentsInChildren<DismemberablePart>()

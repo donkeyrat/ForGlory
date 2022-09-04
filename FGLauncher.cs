@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace ForGlory {
-	[BepInPlugin("teamgrad.forglory", "For Glory", "1.0.0")]
+	[BepInPlugin("teamgrad.forglory", "For Glory", "2.0.0")]
 	public class FGLauncher : BaseUnityPlugin {
 		public FGLauncher() {
 			FGBinder.UnitGlad();

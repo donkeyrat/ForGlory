@@ -28,8 +28,6 @@ namespace ForGlory {
 				}
 				if (componentInParent.GetComponentInChildren<DismemberablePart>() && GetComponent<Explosion>().damage >= componentInParent.health * 0.2f && GetComponent<Explosion>().damage > 80f)
 				{
-
-					Debug.Log("woohoo");
 					var partsOrdered = (
 						from DismemberablePart part 
 							in componentInParent.GetComponentsInChildren<DismemberablePart>()

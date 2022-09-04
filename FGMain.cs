@@ -55,8 +55,8 @@ namespace ForGlory {
                 },
                 m_hideSetting = false,
                 m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Team Color Blood",
-                settingName = "Team Color Blood",
+                m_settingsKey = "Toggle Team Color Blood",
+                settingName = "Toggle Team Color Blood",
                 settingsType = SettingsInstance.SettingsType.Options,
                 toolTip = "Enables/disables team colored blood."
             };
@@ -74,13 +74,32 @@ namespace ForGlory {
                 },
                 m_hideSetting = false,
                 m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Skeleton Blood",
-                settingName = "Skeleton Blood",
+                m_settingsKey = "Toggle Skeleton Blood",
+                settingName = "Toggle Skeleton Blood",
                 settingsType = SettingsInstance.SettingsType.Options,
                 toolTip = "Enables/disables skeleton blood."
             };
             skeletonBlood.OnValueChanged += SkeletonBlood;
             list.Add(skeletonBlood);
+            
+            var decapitation = new SettingsInstance
+            {
+                currentValue = 0,
+                defaultValue = 0,
+                options = new string[]
+                {
+                    "Enabled",
+                    "Disabled"
+                },
+                m_hideSetting = false,
+                m_platform = SettingsInstance.Platform.All,
+                m_settingsKey = "Toggle Dismemberment",
+                settingName = "Toggle Dismemberment",
+                settingsType = SettingsInstance.SettingsType.Options,
+                toolTip = "Enables/disables dismemberment from high-damage attacks."
+            };
+            decapitation.OnValueChanged += Decapitation;
+            list.Add(decapitation);
             
             var killAfterDecapitate = new SettingsInstance
             {
@@ -163,6 +182,15 @@ namespace ForGlory {
             }
         }
         
+        public void Decapitation(int value)  {
+            if (value == 0) {
+                DecapitationEnabled = true;
+            }
+            else {
+                DecapitationEnabled = false;
+            }
+        }
+        
         public void KillUnitsAfterDecapitate(int value)  {
             if (value == 0) {
                 KillUnitsAfterDecapitateEnabled = true;
@@ -214,6 +242,8 @@ namespace ForGlory {
         public static bool SkeletonBloodEnabled = true;
         
         public static bool KillUnitsAfterDecapitateEnabled = false;
+
+        public static bool DecapitationEnabled = true;
 
         public static AssetBundle dismember = AssetBundle.LoadFromMemory(Properties.Resources.dismemberment);
 

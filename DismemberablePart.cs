@@ -10,6 +10,7 @@ namespace ForGlory {
 
         public void DismemberPart()
         {
+            Debug.Log("chop");
             if (transform == unit.data.leftArm) {
                 unit.data.leftHand.gameObject.SetActive(false);
                 for (int i = 0; i < unit.data.leftHand.childCount; i++) {
@@ -19,14 +20,24 @@ namespace ForGlory {
                 }
                 if (unit.holdingHandler && unit.holdingHandler.leftObject && unit.holdingHandler.rightHandActivity != HoldingHandler.HandActivity.HoldingLeftObject) {
                     unit.WeaponHandler.fistRefernce = null;
+                    unit.holdingHandler.leftObject.GetComponent<Rigidbody>().isKinematic = false;
+                    if (unit.holdingHandler.leftObject.GetComponentInChildren<ConditionalEvent>())
+                    {
+                        unit.holdingHandler.leftObject.GetComponentInChildren<ConditionalEvent>().enabled = false;
+                    }
                     unit.holdingHandler.LetGoOfWeapon(unit.holdingHandler.leftObject.gameObject);
                 }
                 else if (unit.holdingHandler && unit.holdingHandler.leftObject && unit.holdingHandler.rightHandActivity == HoldingHandler.HandActivity.HoldingLeftObject) {
                     unit.WeaponHandler.fistRefernce = null;
+                    unit.holdingHandler.leftObject.GetComponent<Rigidbody>().isKinematic = false;
+                    if (unit.holdingHandler.leftObject.GetComponentInChildren<ConditionalEvent>())
+                    {
+                        unit.holdingHandler.leftObject.GetComponentInChildren<ConditionalEvent>().enabled = false;
+                    }
                     Destroy((ConfigurableJoint)unit.holdingHandler.GetField("leftHandJoint"));
                 }
             }
-            else if (transform == unit.data.rightArm) {
+            if (transform == unit.data.rightArm) {
                 unit.data.rightHand.gameObject.SetActive(false);
                 for (int i = 0; i < unit.data.rightHand.childCount; i++) {
                     unit.data.rightHand.GetChild(i).localScale = Vector3.zero;
@@ -35,10 +46,20 @@ namespace ForGlory {
                 }
                 if (unit.holdingHandler && unit.holdingHandler.rightObject && unit.holdingHandler.leftHandActivity != HoldingHandler.HandActivity.HoldingRightObject) {
                     unit.WeaponHandler.fistRefernce = null;
+                    unit.holdingHandler.rightObject.GetComponent<Rigidbody>().isKinematic = false;
+                    if (unit.holdingHandler.rightObject.GetComponentInChildren<ConditionalEvent>())
+                    {
+                        unit.holdingHandler.rightObject.GetComponentInChildren<ConditionalEvent>().enabled = false;
+                    }
                     unit.holdingHandler.LetGoOfWeapon(unit.holdingHandler.rightObject.gameObject);
                 }
                 else if (unit.holdingHandler && unit.holdingHandler.rightObject && unit.holdingHandler.leftHandActivity == HoldingHandler.HandActivity.HoldingRightObject) {
                     unit.WeaponHandler.fistRefernce = null;
+                    unit.holdingHandler.rightObject.GetComponent<Rigidbody>().isKinematic = false;
+                    if (unit.holdingHandler.rightObject.GetComponentInChildren<ConditionalEvent>())
+                    {
+                        unit.holdingHandler.rightObject.GetComponentInChildren<ConditionalEvent>().enabled = false;
+                    }
                     Destroy((ConfigurableJoint)unit.holdingHandler.GetField("rightHandJoint"));
                 }
             }
@@ -57,6 +78,10 @@ namespace ForGlory {
                     unit.data.footRight.SetParent(transform);
                     unit.data.footRight.localPosition = Vector3.zero;
                 }
+            }
+            else if (transform == unit.data.head && FGMain.KillUnitsAfterDecapitateEnabled)
+            {
+                unit.data.healthHandler.Die();
             }
             if (unit.data.GetComponent<StandingHandler>()) { unit.data.GetComponent<StandingHandler>().selfOffset += 0.8f; }
             if (!(transform.root.name.Contains("Stiffy") && !FGMain.SkeletonBloodEnabled)) {
@@ -78,6 +103,18 @@ namespace ForGlory {
                 transform.SetParent(unit.data.mainRig.transform);
             }
             gameObject.SetActive(false);
+            if (!unit.data.leftArm.gameObject.activeSelf && !unit.data.rightArm.gameObject.activeSelf)
+            {
+                if (unit.holdingHandler.leftObject && unit.holdingHandler.leftObject.GetComponentInChildren<ConditionalEvent>())
+                {
+                    unit.holdingHandler.leftObject.GetComponentInChildren<ConditionalEvent>().enabled = false;
+                }
+                if (unit.holdingHandler.rightObject && unit.holdingHandler.rightObject.GetComponentInChildren<ConditionalEvent>())
+                {
+                    unit.holdingHandler.rightObject.GetComponentInChildren<ConditionalEvent>().enabled = false;
+                }
+                unit.holdingHandler.LetGoOfAll();
+            }
             dismembered = true;
         }
 

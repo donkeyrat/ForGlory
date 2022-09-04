@@ -4,6 +4,7 @@ using UnityEngine;
 using HarmonyLib;
 using Landfall.TABS;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ForGlory
 {
@@ -173,16 +174,16 @@ namespace ForGlory
 						var scale = blood.GetComponent<ParticleSystem>().main;
 						scale.startSizeMultiplier *= FGMain.BloodSize;
 					}
-					bool isDone = false;
-					var multiplier = 1f * (componentInParent.unit.GetComponent<IceGiant>() ? 1.5f : 1f) * componentInParent.unit.unitBlueprint.sizeMultiplier;
 					if (componentInParent.GetComponentInChildren<DismemberablePart>() && componentInParent.team != ___ownUnit.Team && __instance.damage >= componentInParent.health * 0.2f) {
-						foreach (var part in componentInParent.GetComponentsInChildren<DismemberablePart>())
+						var partsOrdered = (
+							from DismemberablePart part 
+								in componentInParent.GetComponentsInChildren<DismemberablePart>()
+							where !part.dismembered
+							orderby Vector3.Distance(collision.contacts[0].point, part.transform.position)
+							select part).ToArray();
+						if (partsOrdered.Length > 0)
 						{
-							if (part != null && !isDone && !part.dismembered && Vector3.Distance(collision.GetContact(0).point, part.transform.position) < 0.75f * multiplier)
-							{
-								part.DismemberPart();
-								isDone = true;
-							}
+							partsOrdered[0].DismemberPart();
 						}
 					}
 				}

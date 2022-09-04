@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Landfall.TABS;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ForGlory {
 
@@ -7,9 +9,10 @@ namespace ForGlory {
 
         public override void DoEffect(GameObject target) {
 
-			if (target && target.transform.root && target.transform.root.GetComponent<Unit>() && target.transform.root.GetComponent<Unit>().unitType == Unit.UnitType.Meat && !(transform.root.GetComponent<Unit>() && target.transform.root.GetComponent<Unit>().Team == transform.root.GetComponent<Unit>().Team) && !(GetComponent<TeamHolder>() && target.transform.root.GetComponent<Unit>().Team == GetComponent<TeamHolder>().team)) {
+			if (target && target.transform.root && target.transform.root.GetComponent<Unit>() && target.transform.root.GetComponent<Unit>().unitType == Unit.UnitType.Meat && !(transform.root.GetComponent<Unit>() && target.transform.root.GetComponent<Unit>().Team == transform.root.GetComponent<Unit>().Team) && !(GetComponent<TeamHolder>() && target.transform.root.GetComponent<Unit>().Team == GetComponent<TeamHolder>().team) && !hitList.Contains(target.transform.root.GetComponent<Unit>())) {
 
 				var componentInParent = target.transform.root.GetComponent<Unit>().data;
+				hitList.Add(componentInParent.unit);
 				if (GetComponent<Explosion>().damage > 5f && !(componentInParent.unit.name.Contains("Stiffy") && !FGMain.SkeletonBloodEnabled)) {
 					var blood = Instantiate(FGMain.dismember.LoadAsset<GameObject>("E_BloodDamage"), componentInParent.mainRig.position, Quaternion.identity, target.transform);
 					if (componentInParent.unit.GetComponent<ParticleTeamColor>()) {
@@ -23,12 +26,24 @@ namespace ForGlory {
 					var scale = blood.GetComponent<ParticleSystem>().main;
 					scale.startSizeMultiplier *= FGMain.BloodSize;
 				}
-				if (componentInParent.GetComponentInChildren<DismemberablePart>() && GetComponent<Explosion>().damage >= componentInParent.health * 0.2f && GetComponent<Explosion>().damage > 80f && componentInParent.GetComponentsInChildren<DismemberablePart>().Length > 0) {
+				if (componentInParent.GetComponentInChildren<DismemberablePart>() && GetComponent<Explosion>().damage >= componentInParent.health * 0.2f && GetComponent<Explosion>().damage > 80f)
+				{
 
-					var randomPart = componentInParent.GetComponentsInChildren<DismemberablePart>()[Random.Range(0, componentInParent.GetComponentsInChildren<DismemberablePart>().Length - 1)];
-					randomPart.DismemberPart();
+					Debug.Log("woohoo");
+					var partsOrdered = (
+						from DismemberablePart part 
+							in componentInParent.GetComponentsInChildren<DismemberablePart>()
+						where !part.dismembered
+						orderby Vector3.Distance(transform.position, part.transform.position)
+						select part).ToList();
+					if (partsOrdered[0] != null)
+					{
+						partsOrdered[0].DismemberPart();
+					}
 				}
 			}
         }
+
+        private List<Unit> hitList = new List<Unit>();
     }
 }

@@ -81,6 +81,25 @@ namespace ForGlory {
             };
             skeletonBlood.OnValueChanged += SkeletonBlood;
             list.Add(skeletonBlood);
+            
+            var killAfterDecapitate = new SettingsInstance
+            {
+                currentValue = 1,
+                defaultValue = 1,
+                options = new string[]
+                {
+                    "Enabled",
+                    "Disabled"
+                },
+                m_hideSetting = false,
+                m_platform = SettingsInstance.Platform.All,
+                m_settingsKey = "Kill Units After Decapitation",
+                settingName = "Kill Units After Decapitation",
+                settingsType = SettingsInstance.SettingsType.Options,
+                toolTip = "Enables/disables units dying after decapitation."
+            };
+            killAfterDecapitate.OnValueChanged += KillUnitsAfterDecapitate;
+            list.Add(killAfterDecapitate);
 
             var bloodIntensity = new SettingsInstance
             {
@@ -143,6 +162,15 @@ namespace ForGlory {
                 SkeletonBloodEnabled = false;
             }
         }
+        
+        public void KillUnitsAfterDecapitate(int value)  {
+            if (value == 0) {
+                KillUnitsAfterDecapitateEnabled = true;
+            }
+            else {
+                KillUnitsAfterDecapitateEnabled = false;
+            }
+        }
 
         public void BloodIntensifier(float value) {
             BloodIntensity = value;
@@ -184,6 +212,8 @@ namespace ForGlory {
         public static bool TeamColorEnabled = true;
 
         public static bool SkeletonBloodEnabled = true;
+        
+        public static bool KillUnitsAfterDecapitateEnabled = false;
 
         public static AssetBundle dismember = AssetBundle.LoadFromMemory(Properties.Resources.dismemberment);
 

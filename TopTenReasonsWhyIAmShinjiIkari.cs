@@ -6,6 +6,7 @@ using Landfall.TABS;
 using System.Collections.Generic;
 using System.Collections;
 using TFBGames;
+using System.Linq;
 
 namespace ForGlory {
 
@@ -58,13 +59,11 @@ namespace ForGlory {
 				}
 				if (unit && unit.unitBlueprint && ___ownUnit && unit.unitType == Unit.UnitType.Meat && !unit.data.Dead) {
 					if (__instance.damage > 5f && !(unit.name.Contains("Stiffy") && !FGMain.SkeletonBloodEnabled)) {
-						//Debug.Log("DAMAGE + " + __instance.damage + " + HEALTH + " + unit.data.maxHealth * 0.2f);
 						var blood = UnityEngine.Object.Instantiate(FGMain.dismember.LoadAsset<GameObject>("E_BloodDamage"), hit.point, Quaternion.identity, hit.rigidbody.transform);
 						if (unit.GetComponent<ParticleTeamColor>()) {
 							blood.GetComponent<ParticleTeamColor>().redColor = unit.GetComponent<ParticleTeamColor>().redColor;
 							blood.GetComponent<ParticleTeamColor>().blueColor = FGMain.TeamColorEnabled ? unit.GetComponent<ParticleTeamColor>().blueColor : unit.GetComponent<ParticleTeamColor>().redColor;
 						}
-						//blood.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(blood.transform.forward, ___move.velocity, 1f, 0f));
 						var em = blood.GetComponent<ParticleSystem>().emission;
 						em.burstCount = (int)__instance.damage / (int)1.25 * (int)FGMain.BloodIntensity;
 						var inherit = blood.GetComponent<ParticleSystem>().inheritVelocity;
@@ -72,16 +71,17 @@ namespace ForGlory {
 						var scale = blood.GetComponent<ParticleSystem>().main;
 						scale.startSizeMultiplier *= FGMain.BloodSize;
 					}
-					bool isDone = false;
-					var multiplier = 1f * (unit.GetComponent<IceGiant>() ? 1.5f : 1f) * unit.unitBlueprint.sizeMultiplier;
 					if (componentInParent.GetComponentInChildren<DismemberablePart>() && unit.Team != ___ownUnit.Team && __instance.damage >= unit.data.health * 0.2f) {
-						foreach (var part in unit.GetComponentsInChildren<DismemberablePart>())
+						Debug.Log("die");
+						var partsOrdered = (
+							from DismemberablePart part 
+								in componentInParent.GetComponentsInChildren<DismemberablePart>()
+							where !part.dismembered
+							orderby Vector3.Distance(hit.point, part.transform.position)
+							select part).ToArray();
+						if (partsOrdered.Length > 0)
 						{
-							if (!isDone && !part.dismembered && Vector3.Distance(hit.point, part.transform.position) < 0.75f * multiplier)
-							{
-								part.DismemberPart();
-								isDone = true;
-							}
+							partsOrdered[0].DismemberPart();
 						}
 					}
 				}

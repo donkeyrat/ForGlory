@@ -31,7 +31,6 @@ The mod's [**Github**](https://github.com/donkeyrat/ForGlory) is now the only pl
  - Added a new Bug DLC setting for toggling dismemberment.
  - Added a new Bug DLC setting for toggling death upon decapitation.
  - Fixed decapitation being the most common form of dismemberment.
- - Fixed explosions ripping off too many limbs.
  - Fixed units sometimes holding their weapons while armless.
  - Fixed explosions ripping off all of a unit's body parts (now only rips off the one closest to the explosion's center).
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using HarmonyLib;
 using System.IO;
+using DM;
 
 namespace ForGlory {
 
@@ -14,11 +15,9 @@ namespace ForGlory {
 
         public FGMain() {
 
-            db = LandfallUnitDatabase.GetDatabase();
-
             blueColor = dismember.LoadAsset<GameObject>("E_BloodDamage").GetComponent<ParticleTeamColor>().blueColor;
             redColor = dismember.LoadAsset<GameObject>("E_BloodDamage").GetComponent<ParticleTeamColor>().redColor;
-            foreach (var b in db.UnitBaseList) {
+            foreach (var b in ContentDatabase.Instance().LandfallContentDatabase.GetUnitBases().ToList()) {
                 if (!b.GetComponent<ParticleTeamColor>()) {
                     var co = b.AddComponent<ParticleTeamColor>();
                     co.redColor = redColor;
@@ -246,7 +245,5 @@ namespace ForGlory {
         public static bool DecapitationEnabled = true;
 
         public static AssetBundle dismember = AssetBundle.LoadFromMemory(Properties.Resources.dismemberment);
-
-        public LandfallUnitDatabase db;
     }
 }

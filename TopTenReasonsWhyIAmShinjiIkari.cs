@@ -43,7 +43,7 @@ namespace ForGlory {
 				__instance.DisableProjectile();
 				___stick.Stick(hit.transform, __instance.transform.forward + UnityEngine.Random.insideUnitSphere * 0.2f, hit.point, hit.rigidbody ? hit.rigidbody : null);
 			}
-			ServiceLocator.GetService<SoundPlayer>().PlaySoundEffect(__instance.soundRef, 1f, __instance.transform.position, SoundEffectVariations.GetMaterialType(hit.transform.gameObject, hit.rigidbody));
+			ServiceLocator.GetService<SoundPlayer>().PlaySoundEffect(__instance.SoundRef, 1f, __instance.transform.position, SoundEffectVariations.GetMaterialType(hit.transform.gameObject, hit.rigidbody));
 			Damagable componentInParent = hit.transform.GetComponentInParent<Damagable>();
 			if ((bool)componentInParent && (bool)hit.rigidbody)
 			{

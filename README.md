@@ -34,6 +34,10 @@ The mod's [**Github**](https://github.com/donkeyrat/ForGlory) is now the only pl
  - Fixed units sometimes holding their weapons while armless.
  - Fixed explosions ripping off all of a unit's body parts (now only rips off the one closest to the explosion's center).
 
+### 2.0.1
+
+ - Updated to the latest version of TABS.
+
 ## Credits
 
 This mod was created by Team Grad, an ambitious mod team that aims to improve the game through adding a plethora of new content!

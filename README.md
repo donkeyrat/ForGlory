@@ -38,6 +38,10 @@ The mod's [**Github**](https://github.com/donkeyrat/ForGlory) is now the only pl
 
  - Updated to the latest version of TABS.
 
+### 2.0.1
+
+ - Fixed the lack of sounds.
+
 ## Credits
 
 This mod was created by Team Grad, an ambitious mod team that aims to improve the game through adding a plethora of new content!

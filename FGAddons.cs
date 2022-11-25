@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace ForGlory
 {
-    public static class ExtensionThingy
+    public static class FGAddons
     {
 		public static object InvokeMethod<T>(this T obj, string methodName, params object[] args)
 		{

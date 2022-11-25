@@ -38,9 +38,18 @@ The mod's [**Github**](https://github.com/donkeyrat/ForGlory) is now the only pl
 
  - Updated to the latest version of TABS.
 
-### 2.0.1
+### 2.0.2
 
  - Fixed the lack of sounds.
+
+## 2.1.0
+
+ - Modified the Bug DLC setting for toggling dismemberment to instead use a percent chance.
+ - Added a new Bug DLC setting for configuring dismemberment chance.
+ - Fixed projectiles dealing double damage.
+ - Cleaned code.
+ - Reworked blood intensity calculations.
+
 
 ## Credits
 

@@ -23,10 +23,6 @@ namespace ForGlory {
 						blood.GetComponent<ParticleTeamColor>().redColor = particleTeamColor.redColor;
 						blood.GetComponent<ParticleTeamColor>().blueColor = FGMain.TeamColorEnabled ? particleTeamColor.blueColor : particleTeamColor.redColor;
 					}
-
-					//var goldenNumber = 100f / (explosion.force / (explosion.minMassCap / target.GetComponent<Rigidbody>().mass)) * FGMain.BloodIntensity * Random.Range(3f, 5f);
-	//
-					//Debug.Log("EXPLOSION: " + goldenNumber);
 					
 					var main = blood.GetComponent<ParticleSystem>().main;
 					main.startSizeMultiplier *= FGMain.BloodSize;

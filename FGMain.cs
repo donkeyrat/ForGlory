@@ -276,6 +276,8 @@ namespace ForGlory {
                     Debug.Log(exc);
                 }
             }
+
+            root.dismemberableParts = root.GetComponentsInChildren<DismemberablePart>().ToList();
         }
 
         public static Color blueColor;

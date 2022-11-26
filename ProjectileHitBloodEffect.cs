@@ -8,7 +8,7 @@ namespace ForGlory
 		public override bool DoEffect(HitData hit)
 		{
 			var unit = hit.transform.root.GetComponent<Unit>();
-			if (unit && unit.unitType == Unit.UnitType.Meat)
+			if (unit && hit.rigidbody && hit.rigidbody.transform.parent == unit.data.transform && unit.unitType == Unit.UnitType.Meat)
 			{
 				if (projectileHit.damage > 5f && !(unit.name.Contains("Stiffy") && !FGMain.SkeletonBloodEnabled)) 
 				{
@@ -21,9 +21,7 @@ namespace ForGlory
 						blood.GetComponent<ParticleTeamColor>().blueColor = FGMain.TeamColorEnabled ? particleTeamColor.blueColor : particleTeamColor.redColor;
 					}
 					
-					var goldenNumber = 100f / (projectileHit.force / projectileHit.lowMassCap) * FGMain.BloodIntensity * Random.Range(0.15f, 0.35f);
-
-					Debug.Log("PROJECTILE: " + goldenNumber);
+					var goldenNumber = Mathf.Clamp(100f / (projectileHit.force / projectileHit.lowMassCap) * FGMain.BloodIntensity * Random.Range(0.1f, 0.2f), 0.1f, 1.5f * FGMain.BloodIntensity);
 						
 					var main = blood.GetComponent<ParticleSystem>().main;
 					main.startSizeMultiplier *= FGMain.BloodSize;

@@ -24,7 +24,7 @@ namespace ForGlory
 							blood.GetComponent<ParticleTeamColor>().blueColor = FGMain.TeamColorEnabled ? particleTeamColor.blueColor : particleTeamColor.redColor;
 						}
 
-						var goldenNumber = 100f / collision.impulse.magnitude * FGMain.BloodIntensity * (Random.value > 0.8f ? Random.Range(1f, 2f) : 0.7f);
+						var goldenNumber =  Mathf.Clamp(100f / collision.impulse.magnitude * FGMain.BloodIntensity * (Random.value > 0.8f ? Random.Range(1f, 2f) : 0.7f), 0.1f, 1.5f * FGMain.BloodIntensity);
 
 						var main = blood.GetComponent<ParticleSystem>().main;
 						main.startSizeMultiplier *= FGMain.BloodSize;

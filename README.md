@@ -50,6 +50,15 @@ The mod's [**Github**](https://github.com/donkeyrat/ForGlory) is now the only pl
  - Cleaned code.
  - Reworked blood intensity calculations.
 
+### 2.1.1
+
+ - Fixed only the left arm being able to be dismembered.
+
+### 2.1.1
+
+ - Fixed shields bleeding.
+ - Fixed no body parts being able to be dismembered.
+ - Added a cap to collision blood effects.
 
 ## Credits
 

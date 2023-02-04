@@ -7,12 +7,14 @@ using System.Linq;
 using System;
 using HarmonyLib;
 using System.IO;
+using BepInEx.Configuration;
 using DM;
+using Sony.NP;
 
 namespace ForGlory {
 
-	public class FGMain {
-
+	public class FGMain 
+    {
         public FGMain()
         {
             var db = ContentDatabase.Instance().LandfallContentDatabase;
@@ -74,134 +76,76 @@ namespace ForGlory {
             
             new Harmony("DerulanWasHitByATruckSorryGuys").PatchAll();
             
-            GlobalSettingsHandler service = ServiceLocator.GetService<GlobalSettingsHandler>();
-            var list = service.BugsSettings.ToList();
-
-            var teamColorBlood = new SettingsInstance
+            var toggleWeaponBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Melee Blood", "Enables/disables blood from melee weapons.", "GAMEPLAY", 0f, FGLauncher.ConfigWeaponBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            toggleWeaponBlood.OnValueChanged += delegate(int value)
             {
-                currentValue = 0,
-                defaultValue = 0,
-                options = new string[]
-                {
-                    "Enabled",
-                    "Disabled"
-                },
-                m_hideSetting = false,
-                m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Toggle Team Color Blood",
-                settingName = "Toggle Team Color Blood",
-                settingsType = SettingsInstance.SettingsType.Options,
-                toolTip = "Enables/disables team colored blood."
+                FGLauncher.ConfigWeaponBloodEnabled.Value = value == 0;
             };
-            teamColorBlood.OnValueChanged += TeamColor;
-            list.Add(teamColorBlood);
-
-            var skeletonBlood = new SettingsInstance
-            {
-                currentValue = 0,
-                defaultValue = 0,
-                options = new string[]
-                {
-                    "Enabled",
-                    "Disabled"
-                },
-                m_hideSetting = false,
-                m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Toggle Skeleton Blood",
-                settingName = "Toggle Skeleton Blood",
-                settingsType = SettingsInstance.SettingsType.Options,
-                toolTip = "Enables/disables skeleton blood."
-            };
-            skeletonBlood.OnValueChanged += SkeletonBlood;
-            list.Add(skeletonBlood);
             
-            var killAfterDecapitate = new SettingsInstance
+            var toggleProjectileBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Projectile Blood", "Enables/disables blood from projectiles.", "GAMEPLAY", 0f, FGLauncher.ConfigProjectileBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            toggleProjectileBlood.OnValueChanged += delegate(int value)
             {
-                currentValue = 0,
-                defaultValue = 0,
-                options = new string[]
+                FGLauncher.ConfigProjectileBloodEnabled.Value = value == 0;
+            };
+            
+            var toggleExplosionBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Explosion Blood", "Enables/disables blood from explosions.", "GAMEPLAY", 0f, FGLauncher.ConfigExplosionBloodEnabled.Value ? 0 : 1, new[] { "Disabled", "Enabled" } );
+            toggleExplosionBlood.OnValueChanged += delegate(int value)
+            {
+                FGLauncher.ConfigExplosionBloodEnabled.Value = value == 0;
+            };
+
+            var dismemberment = CreateSetting(SettingsInstance.SettingsType.Slider, "Dismemberment Chance", "Percent chance of dismemberment every time a unt takes damage.", "GAMEPLAY", 15f, FGLauncher.ConfigDismembermentChance.Value, null, 0f, 100f);
+            dismemberment.OnSliderValueChanged += delegate(float value)
+            {
+                FGLauncher.ConfigDismembermentChance.Value = value;
+            };
+            
+            var decapitation = CreateSetting(SettingsInstance.SettingsType.Slider, "Decapitation Chance", "Percent chance of decapitation for every dismemberment.", "GAMEPLAY", 30f, FGLauncher.ConfigDecapitationChance.Value, null, 0f, 100f);
+            decapitation.OnSliderValueChanged += delegate(float value)
+            {
+                FGLauncher.ConfigDecapitationChance.Value = value;
+            };
+
+            var teamColorBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Team Color Blood", "Enables/disables team colored blood.", "BUG", 0f, FGLauncher.ConfigTeamColorEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            teamColorBlood.OnValueChanged += delegate(int value)
+            {
+                FGLauncher.ConfigTeamColorEnabled.Value = value == 0;
+            };
+
+            var skeletonBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Skeleton Blood", "Enables/disables skeleton blood.", "BUG", 0f, FGLauncher.ConfigSkeletonBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            skeletonBlood.OnValueChanged += delegate(int value)
+            {
+                FGLauncher.ConfigSkeletonBloodEnabled.Value = value == 0;
+            };
+            
+            var killAfterDecapitate = CreateSetting(SettingsInstance.SettingsType.Options, "Kill Units After Decapitation", "Enables/disables units dying after decapitation.", "BUG", 0f, FGLauncher.ConfigKillUnitsAfterDecapitateEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            killAfterDecapitate.OnValueChanged += delegate(int value)
+            {
+                FGLauncher.ConfigKillUnitsAfterDecapitateEnabled.Value = value == 0;
+            };
+            
+            var bloodAmount = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood Amount", "Modifies the blood amount of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodAmount.Value, null, 0f, 10f);
+            bloodAmount.OnSliderValueChanged += delegate(float value)
+            {
+                FGLauncher.ConfigBloodAmount.Value = value;
+            };
+            
+            var bloodIntensity = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood Intensity", "Modifies the intensity of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodIntensity.Value, null, 0f, 10f);
+            bloodIntensity.OnSliderValueChanged += delegate(float value)
+            {
+                FGLauncher.ConfigBloodIntensity.Value = value;
+            };
+
+            var bloodSizer = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood Scale", "Modifies the scale of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodSize.Value, null, 0f, 10f);
+            bloodSizer.OnSliderValueChanged += delegate(float value)
+            {
+                FGLauncher.ConfigBloodSize.Value = value;
+            };
+
+            foreach (var sb in dismember.LoadAllAssets<SoundBank>()) 
+            {
+                if (sb.name.Contains("Sound")) 
                 {
-                    "Enabled",
-                    "Disabled"
-                },
-                m_hideSetting = false,
-                m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Kill Units After Decapitation",
-                settingName = "Kill Units After Decapitation",
-                settingsType = SettingsInstance.SettingsType.Options,
-                toolTip = "Enables/disables units dying after decapitation."
-            };
-            killAfterDecapitate.OnValueChanged += KillUnitsAfterDecapitate;
-            list.Add(killAfterDecapitate);
-            
-            var dismemberment = new SettingsInstance
-            {
-                currentSliderValue = 60f,
-                defaultSliderValue = 60f,
-                min = 0f,
-                max = 100f,
-                m_hideSetting = false,
-                m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Dismemberment Chance",
-                settingName = "Dismemberment Chance",
-                settingsType = SettingsInstance.SettingsType.Slider,
-                toolTip = "Percent chance of dismemberment every time a unt takes damage."
-            };
-            dismemberment.OnSliderValueChanged += Dismemberment;
-            list.Add(dismemberment);
-            
-            var decapitation = new SettingsInstance
-            {
-                currentSliderValue = 60f,
-                defaultSliderValue = 60f,
-                min = 0f,
-                max = 100f,
-                m_hideSetting = false,
-                m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Decapitation Chance",
-                settingName = "Decapitation Chance",
-                settingsType = SettingsInstance.SettingsType.Slider,
-                toolTip = "Percent chance of decapitation for every dismemberment."
-            };
-            decapitation.OnSliderValueChanged += Decapitation;
-            list.Add(decapitation);
-
-            var bloodIntensity = new SettingsInstance
-            {
-                currentSliderValue = 1f,
-                defaultSliderValue = 1f,
-                min = 0.1f,
-                max = 10f,
-                m_hideSetting = false,
-                m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Blood Intensity",
-                settingName = "Blood Intensity",
-                settingsType = SettingsInstance.SettingsType.Slider,
-                toolTip = "Modifies the intensity of blood splatters."
-            };
-            bloodIntensity.OnSliderValueChanged += BloodIntensifier;
-            list.Add(bloodIntensity);
-
-            var bloodSizer = new SettingsInstance
-            {
-                currentSliderValue = 1f,
-                defaultSliderValue = 1f,
-                min = 0.1f,
-                max = 10f,
-                m_hideSetting = false,
-                m_platform = SettingsInstance.Platform.All,
-                m_settingsKey = "Blood Scale",
-                settingName = "Blood Scale",
-                settingsType = SettingsInstance.SettingsType.Slider,
-                toolTip = "Modifies the scale of blood splatters."
-            };
-            bloodSizer.OnSliderValueChanged += BloodSizer;
-            list.Add(bloodSizer);
-
-            service.SetField("m_bugsSettings", list.ToArray());
-
-            foreach (var sb in dismember.LoadAllAssets<SoundBank>()) {
-                if (sb.name.Contains("Sound")) {
                     var vsb = ServiceLocator.GetService<SoundPlayer>().soundBank;
                     var cat = vsb.Categories.ToList();
                     cat.AddRange(sb.Categories);
@@ -210,62 +154,20 @@ namespace ForGlory {
             }
         }
 
-        public void TeamColor(int value)  
-        {
-            if (value == 0) TeamColorEnabled = true;
-            
-            else TeamColorEnabled = false;
-        }
-
-        public void SkeletonBlood(int value)  
-        {
-            if (value == 0) SkeletonBloodEnabled = true;
-            
-            else SkeletonBloodEnabled = false;
-        }
-        
-        public void KillUnitsAfterDecapitate(int value)  
-        {
-            if (value == 0) KillUnitsAfterDecapitateEnabled = true;
-            
-            else KillUnitsAfterDecapitateEnabled = false;
-        }
-        
-        public void Dismemberment(float value)
-        {
-            DismembermentChance = value / 100;
-        }
-        
-        public void Decapitation(float value)
-        {
-            DecapitationChance = value / 100;
-        }
-
-        public void BloodIntensifier(float value) 
-        {
-            BloodIntensity = value;
-        }
-
-        public void BloodSizer(float value) 
-        {
-            BloodSize = value;
-        }
-
-
-        public void DoDismembermentCheck(GameObject b) 
+        private void DoDismembermentCheck(GameObject b) 
         {
             var unit = b.GetComponent<Unit>();;
             var root = b.AddComponent<RootDismemberment>();
             var parts = b.GetComponentsInChildren<Rigidbody>();
-            for (int i = 0; i < parts.Length; i++) 
+            foreach (var bodyPart in parts)
             {
                 try 
                 {
-                    if (parts[i] != null && !parts[i].GetComponent<Torso>() && !parts[i].GetComponent<Hip>()) 
+                    if (bodyPart != null && !bodyPart.GetComponent<Torso>() && !bodyPart.GetComponent<Hip>()) 
                     {
-                        if (!parts[i].GetComponent<KneeLeft>() && !parts[i].GetComponent<KneeRight>() && !parts[i].GetComponent<HandLeft>() && !parts[i].GetComponent<HandRight>()) 
+                        if (!bodyPart.GetComponent<KneeLeft>() && !bodyPart.GetComponent<KneeRight>() && !bodyPart.GetComponent<HandLeft>() && !bodyPart.GetComponent<HandRight>()) 
                         {
-                            var part = parts[i].gameObject.AddComponent<DismemberablePart>();
+                            var part = bodyPart.gameObject.AddComponent<DismemberablePart>();
                             part.unit = unit;
                             part.root = root;
                         }
@@ -280,23 +182,81 @@ namespace ForGlory {
             root.dismemberableParts = root.GetComponentsInChildren<DismemberablePart>().ToList();
         }
 
+        private SettingsInstance CreateSetting(SettingsInstance.SettingsType settingsType, string settingName, string toolTip, string settingListToAddTo, float defaultValue, float currentValue, string[] options = null, float min = 0f, float max = 1f) 
+        {
+            var setting = new SettingsInstance
+            {
+                settingName = settingName,
+                toolTip = toolTip,
+                m_settingsKey = settingName,
+                settingsType = settingsType,
+                options = options,
+                min = min,
+                max = max,
+                defaultValue = (int)defaultValue,
+                currentValue = (int)currentValue,
+                defaultSliderValue = defaultValue,
+                currentSliderValue = currentValue
+            };
+
+            var global = ServiceLocator.GetService<GlobalSettingsHandler>();
+            SettingsInstance[] listToAdd;
+            if (settingListToAddTo == "BUG") listToAdd = global.BugsSettings;
+            else if (settingListToAddTo == "VIDEO") listToAdd = global.VideoSettings;
+            else if (settingListToAddTo == "AUDIO") listToAdd = global.AudioSettings;
+            else if (settingListToAddTo == "CONTROLS") listToAdd = global.ControlSettings;
+            else listToAdd = global.GameplaySettings;
+
+            var list = listToAdd.ToList();
+            list.Add(setting);
+
+            switch (settingListToAddTo)
+            {
+                case "BUG":
+                    typeof(GlobalSettingsHandler).GetField("m_bugsSettings", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(global, list.ToArray());
+                    break;
+                case "VIDEO":
+                    typeof(GlobalSettingsHandler).GetField("m_videoSettings", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(global, list.ToArray());
+                    break;
+                case "AUDIO":
+                    typeof(GlobalSettingsHandler).GetField("m_audioSettings", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(global, list.ToArray());
+                    break;
+                case "CONTROLS":
+                    typeof(GlobalSettingsHandler).GetField("m_controlSettings", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(global, list.ToArray());
+                    break;
+                default:
+                    typeof(GlobalSettingsHandler).GetField("m_gameplaySettings", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(global, list.ToArray());
+                    break;
+            }
+
+            return setting;
+        }
+
         public static Color blueColor;
 
         public static Color redColor;
 
-        public static float BloodIntensity = 1f;
+        public static bool WeaponBloodEnabled => FGLauncher.ConfigWeaponBloodEnabled.Value;
 
-        public static float BloodSize = 1f;
-
-        public static bool TeamColorEnabled = true;
-
-        public static bool SkeletonBloodEnabled = true;
+        public static bool ProjectileBloodEnabled => FGLauncher.ConfigProjectileBloodEnabled.Value;
         
-        public static bool KillUnitsAfterDecapitateEnabled = true;
+        public static bool ExplosionBloodEnabled => FGLauncher.ConfigExplosionBloodEnabled.Value;
 
-        public static float DismembermentChance = 0.6f;
+        public static float DismembermentChance => FGLauncher.ConfigDismembermentChance.Value / 100;
         
-        public static float DecapitationChance = 0.6f;
+        public static float DecapitationChance => FGLauncher.ConfigDecapitationChance.Value / 100;
+        
+        public static bool TeamColorEnabled => FGLauncher.ConfigTeamColorEnabled.Value;
+
+        public static bool SkeletonBloodEnabled => FGLauncher.ConfigSkeletonBloodEnabled.Value;
+        
+        public static bool KillUnitsAfterDecapitateEnabled => FGLauncher.ConfigKillUnitsAfterDecapitateEnabled.Value;
+        
+        public static float BloodAmount => FGLauncher.ConfigBloodAmount.Value * 100;
+        
+        public static float BloodIntensity => FGLauncher.ConfigBloodIntensity.Value;
+
+        public static float BloodSize => FGLauncher.ConfigBloodSize.Value;
 
         public static AssetBundle dismember = AssetBundle.LoadFromMemory(Properties.Resources.dismemberment);
     }

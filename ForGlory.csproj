@@ -457,7 +457,6 @@
     <Compile Include="DismemberablePart.cs" />
     <Compile Include="ExplosionBloodEffect.cs" />
     <Compile Include="FGAddons.cs" />
-    <Compile Include="FGBinder.cs" />
     <Compile Include="FGLauncher.cs" />
     <Compile Include="FGMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

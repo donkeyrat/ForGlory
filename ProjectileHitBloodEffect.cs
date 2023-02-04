@@ -7,6 +7,8 @@ namespace ForGlory
 	{
 		public override bool DoEffect(HitData hit)
 		{
+			if (!FGMain.ProjectileBloodEnabled) return false;
+			
 			var unit = hit.transform.root.GetComponent<Unit>();
 			if (unit && hit.rigidbody && hit.rigidbody.transform.parent == unit.data.transform && unit.unitType == Unit.UnitType.Meat)
 			{
@@ -27,6 +29,9 @@ namespace ForGlory
 					main.startSizeMultiplier *= FGMain.BloodSize;
 					main.duration *= goldenNumber;
 					main.startSpeedMultiplier *= goldenNumber;
+					
+					var emission = blood.GetComponent<ParticleSystem>().emission;
+					emission.rateOverTimeMultiplier = FGMain.BloodAmount;
 						
 					var inherit = blood.GetComponent<ParticleSystem>().inheritVelocity;
 					inherit.curveMultiplier *= goldenNumber;
@@ -37,7 +42,7 @@ namespace ForGlory
 				}
 			}
 
-			return true;
+			return false;
 		}
 
 		public ProjectileHit projectileHit;

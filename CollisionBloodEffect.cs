@@ -10,6 +10,8 @@ namespace ForGlory
 		{ 
 			public override void DoEffect(Transform hitTransform, Collision collision)
 			{
+				if (!FGMain.WeaponBloodEnabled) return;
+				
 				var unit = collision.transform.root.GetComponent<Unit>();
 				if (unit && unit.unitType == Unit.UnitType.Meat)
 				{
@@ -30,7 +32,10 @@ namespace ForGlory
 						main.startSizeMultiplier *= FGMain.BloodSize;
 						main.duration *= goldenNumber;
 						main.startSpeedMultiplier *= goldenNumber;
-						
+
+						var emission = blood.GetComponent<ParticleSystem>().emission;
+						emission.rateOverTimeMultiplier = FGMain.BloodAmount;
+
 						var inherit = blood.GetComponent<ParticleSystem>().inheritVelocity;
 						inherit.curveMultiplier *= goldenNumber;
 					}

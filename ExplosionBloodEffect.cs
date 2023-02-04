@@ -7,8 +7,10 @@ namespace ForGlory {
 
     public class ExplosionBloodEffect : ExplosionEffect {
 
-        public override void DoEffect(GameObject target) 
+        public override void DoEffect(GameObject target)
         {
+	        if (!FGMain.ExplosionBloodEnabled) return;
+	        
 	        var unit = target.transform.root.GetComponent<Unit>();
 			if (unit && unit.unitType == Unit.UnitType.Meat && target.GetComponent<Rigidbody>() && !hitList.Contains(target.transform.root.GetComponent<Unit>()))
 			{
@@ -28,6 +30,9 @@ namespace ForGlory {
 					main.startSizeMultiplier *= FGMain.BloodSize;
 					main.duration *= FGMain.BloodIntensity;
 					main.startSpeedMultiplier *= FGMain.BloodIntensity;
+					
+					var emission = blood.GetComponent<ParticleSystem>().emission;
+					emission.rateOverTimeMultiplier = FGMain.BloodAmount;
 						
 					var inherit = blood.GetComponent<ParticleSystem>().inheritVelocity;
 					inherit.curveMultiplier *= FGMain.BloodIntensity;

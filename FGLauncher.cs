@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ForGlory 
 {
-	[BepInPlugin("teamgrad.forglory", "For Glory", "2.1.2")]
+	[BepInPlugin("teamgrad.forglory", "For Glory", "2.2.0")]
 	public class FGLauncher : BaseUnityPlugin 
 	{
 		public void Awake()
@@ -18,14 +18,13 @@ namespace ForGlory
 		private static IEnumerator LaunchMod() 
 		{
 			yield return new WaitUntil(() => FindObjectOfType<ServiceLocator>() != null);
-			yield return new WaitUntil(() => ServiceLocator.GetService<ISaveLoaderService>() != null);
 			
 			yield return new WaitForSeconds(0.5f);
 			
 			new FGMain();
 		}
 
-		public void DoConfig()
+		private void DoConfig()
 		{
 			ConfigWeaponBloodEnabled = Config.Bind("Gameplay", "WeaponBloodEnabled", true, "Enables/disables blood from melee weapons.");
 			ConfigProjectileBloodEnabled = Config.Bind("Gameplay", "ProjectileBloodEnabled", true, "Enables/disables blood from projectiles.");

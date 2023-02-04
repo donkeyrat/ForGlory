@@ -76,67 +76,67 @@ namespace ForGlory {
             
             new Harmony("DerulanWasHitByATruckSorryGuys").PatchAll();
             
-            var toggleWeaponBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Melee Blood", "Enables/disables blood from melee weapons.", "GAMEPLAY", 0f, FGLauncher.ConfigWeaponBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            var toggleWeaponBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle melee blood", "Enables/disables blood from melee weapons.", "GAMEPLAY", 0f, FGLauncher.ConfigWeaponBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
             toggleWeaponBlood.OnValueChanged += delegate(int value)
             {
                 FGLauncher.ConfigWeaponBloodEnabled.Value = value == 0;
             };
             
-            var toggleProjectileBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Projectile Blood", "Enables/disables blood from projectiles.", "GAMEPLAY", 0f, FGLauncher.ConfigProjectileBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            var toggleProjectileBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle projectile blood", "Enables/disables blood from projectiles.", "GAMEPLAY", 0f, FGLauncher.ConfigProjectileBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
             toggleProjectileBlood.OnValueChanged += delegate(int value)
             {
                 FGLauncher.ConfigProjectileBloodEnabled.Value = value == 0;
             };
             
-            var toggleExplosionBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Explosion Blood", "Enables/disables blood from explosions.", "GAMEPLAY", 0f, FGLauncher.ConfigExplosionBloodEnabled.Value ? 0 : 1, new[] { "Disabled", "Enabled" } );
+            var toggleExplosionBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle explosion blood", "Enables/disables blood from explosions.", "GAMEPLAY", 0f, FGLauncher.ConfigExplosionBloodEnabled.Value ? 0 : 1, new[] { "Disabled", "Enabled" } );
             toggleExplosionBlood.OnValueChanged += delegate(int value)
             {
-                FGLauncher.ConfigExplosionBloodEnabled.Value = value == 0;
+                FGLauncher.ConfigExplosionBloodEnabled.Value = value == 1;
             };
 
-            var dismemberment = CreateSetting(SettingsInstance.SettingsType.Slider, "Dismemberment Chance", "Percent chance of dismemberment every time a unt takes damage.", "GAMEPLAY", 15f, FGLauncher.ConfigDismembermentChance.Value, null, 0f, 100f);
+            var dismemberment = CreateSetting(SettingsInstance.SettingsType.Slider, "Dismemberment chance", "Percent chance of dismemberment every time a unt takes damage.", "GAMEPLAY", 10f, FGLauncher.ConfigDismembermentChance.Value, null, 0f, 100f);
             dismemberment.OnSliderValueChanged += delegate(float value)
             {
                 FGLauncher.ConfigDismembermentChance.Value = value;
             };
             
-            var decapitation = CreateSetting(SettingsInstance.SettingsType.Slider, "Decapitation Chance", "Percent chance of decapitation for every dismemberment.", "GAMEPLAY", 30f, FGLauncher.ConfigDecapitationChance.Value, null, 0f, 100f);
+            var decapitation = CreateSetting(SettingsInstance.SettingsType.Slider, "Decapitation chance", "Percent chance of decapitation for every dismemberment.", "GAMEPLAY", 30f, FGLauncher.ConfigDecapitationChance.Value, null, 0f, 100f);
             decapitation.OnSliderValueChanged += delegate(float value)
             {
                 FGLauncher.ConfigDecapitationChance.Value = value;
             };
 
-            var teamColorBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Team Color Blood", "Enables/disables team colored blood.", "BUG", 0f, FGLauncher.ConfigTeamColorEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            var teamColorBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle team color blood", "Enables/disables team colored blood.", "BUG", 0f, FGLauncher.ConfigTeamColorEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
             teamColorBlood.OnValueChanged += delegate(int value)
             {
                 FGLauncher.ConfigTeamColorEnabled.Value = value == 0;
             };
 
-            var skeletonBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle Skeleton Blood", "Enables/disables skeleton blood.", "BUG", 0f, FGLauncher.ConfigSkeletonBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            var skeletonBlood = CreateSetting(SettingsInstance.SettingsType.Options, "Toggle skeleton blood", "Enables/disables skeleton blood.", "BUG", 0f, FGLauncher.ConfigSkeletonBloodEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
             skeletonBlood.OnValueChanged += delegate(int value)
             {
                 FGLauncher.ConfigSkeletonBloodEnabled.Value = value == 0;
             };
             
-            var killAfterDecapitate = CreateSetting(SettingsInstance.SettingsType.Options, "Kill Units After Decapitation", "Enables/disables units dying after decapitation.", "BUG", 0f, FGLauncher.ConfigKillUnitsAfterDecapitateEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
+            var killAfterDecapitate = CreateSetting(SettingsInstance.SettingsType.Options, "Kill units after decapitation", "Enables/disables units dying after decapitation.", "BUG", 0f, FGLauncher.ConfigKillUnitsAfterDecapitateEnabled.Value ? 0 : 1, new[] { "Enabled", "Disabled" } );
             killAfterDecapitate.OnValueChanged += delegate(int value)
             {
                 FGLauncher.ConfigKillUnitsAfterDecapitateEnabled.Value = value == 0;
             };
             
-            var bloodAmount = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood Amount", "Modifies the blood amount of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodAmount.Value, null, 0f, 10f);
+            var bloodAmount = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood amount", "Modifies the blood amount of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodAmount.Value, null, 0f, 10f);
             bloodAmount.OnSliderValueChanged += delegate(float value)
             {
                 FGLauncher.ConfigBloodAmount.Value = value;
             };
             
-            var bloodIntensity = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood Intensity", "Modifies the intensity of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodIntensity.Value, null, 0f, 10f);
+            var bloodIntensity = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood intensity", "Modifies the intensity of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodIntensity.Value, null, 0f, 10f);
             bloodIntensity.OnSliderValueChanged += delegate(float value)
             {
                 FGLauncher.ConfigBloodIntensity.Value = value;
             };
 
-            var bloodSizer = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood Scale", "Modifies the scale of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodSize.Value, null, 0f, 10f);
+            var bloodSizer = CreateSetting(SettingsInstance.SettingsType.Slider, "Blood scale", "Modifies the scale of blood splatters.", "BUG", 1f, FGLauncher.ConfigBloodSize.Value, null, 0f, 10f);
             bloodSizer.OnSliderValueChanged += delegate(float value)
             {
                 FGLauncher.ConfigBloodSize.Value = value;

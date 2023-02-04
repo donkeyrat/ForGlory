@@ -1,6 +1,6 @@
 # For Glory
 
-A long-time requested mod, For Glory adds dismemberment and blood effects to TABS! Battles are all the more satisfying, and you can look across the field of bodies and see missing limbs and heads. Explosions, melee weapons, and ranged weapons all have a new layer of spice, and blood!
+A long-time requested mod, For Glory adds dismemberment and blood effects to TABS! Battles are all the more satisfying, and you can look across the field of bodies and see missing limbs and heads. Mmelee weapons and ranged weapons all have a new layer of spice, and blood!
 
 ### If you have trouble with the mod, or if you just want to chat, you can join the [TABS Mod Center](https://discord.gg/zrs44qyp7S).
 
@@ -10,9 +10,9 @@ A long-time requested mod, For Glory adds dismemberment and blood effects to TAB
 
 Start a battle, and you'll see blood effects! 
 
-You can tweak the intensity of the blood in your Bug DLC settings, as well as enable or disable team colored blood, enable or disable skeleton blood, and tweak the size of blood splats. 
+You can tweak the intensity of the blood in your Bug DLC settings, as well as tweak the size of blood splats, tweak the amount of blood in blood splats, toggle team colored blood, toggle skeleton blood, and toggle units dying after decapitation. 
 
-You can also disable dismemberment entirely, or enable having units die after getting dismembered, just so they aren't walking around while headless like a chicken.
+You can also adjust dismemberment and decapitation chances, as well as toggle blood for explosions, melee weapons, and ranged weapons.
 
 ## Changelog
 
@@ -60,11 +60,20 @@ The mod's [**Github**](https://github.com/donkeyrat/ForGlory) is now the only pl
  - Fixed no body parts being able to be dismembered.
  - Added a cap to collision blood effects.
 
+## 2.2.0
+
+ - Changed all settings to save even after exiting the game.
+ - Disabled explosion blood by default.
+ - Added four new settings (Toggle melee blood, toggle projectile blood, toggle explosion blood, and blood amount).
+ - Moved some settings to the Gameplay tab.
+ - Modified default chances for dismemberment and decapitation.
+ - Fixed certain projectiles being broken.
+
 ## Credits
 
 This mod was created by Team Grad, an ambitious mod team that aims to improve the game through adding a plethora of new content!
 
-**BD - Coder, Creator**
+**BD - Coder/Owner**
 
 **Harren Tonderen - Icon Artist**
 

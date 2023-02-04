@@ -1,6 +1,6 @@
 # For Glory
 
-A long-time requested mod, For Glory adds dismemberment and blood effects to TABS! Battles are all the more satisfying, and you can look across the field of bodies and see missing limbs and heads. Mmelee weapons and ranged weapons all have a new layer of spice, and blood!
+A long-time requested mod, For Glory adds dismemberment and blood effects to TABS! Battles are all the more satisfying, and you can look across the field of bodies and see missing limbs and heads. Melee weapons and ranged weapons all have a new layer of spice, and blood!
 
 ### If you have trouble with the mod, or if you just want to chat, you can join the [TABS Mod Center](https://discord.gg/zrs44qyp7S).
 

@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using HarmonyLib;
 using Landfall.TABS;
-using System.Linq;
-using TFBGames;
 
 namespace ForGlory
 {

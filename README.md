@@ -68,6 +68,10 @@ The mod's [**Github**](https://github.com/donkeyrat/ForGlory) is now the only pl
  - Moved some settings to the Gameplay tab.
  - Modified default chances for dismemberment and decapitation.
  - Fixed certain projectiles being broken.
+ 
+ ### 2.2.1
+
+ - Added TGCore as a dependency.
 
 ## Credits
 

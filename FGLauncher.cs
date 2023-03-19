@@ -1,16 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Configuration;
-using DM;
-using Landfall.TABS;
 using TGCore;
-using UnityEngine;
 
 namespace ForGlory 
 {
-	[BepInPlugin("teamgrad.forglory", "For Glory", "2.2.0")]
+	[BepInPlugin("teamgrad.forglory", "For Glory", "2.2.1")]
 	[BepInDependency("teamgrad.core")]
 	public class FGLauncher : TGMod 
 	{

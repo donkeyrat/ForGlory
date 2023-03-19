@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Landfall.TABS;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ForGlory {
 

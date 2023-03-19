@@ -37,7 +37,7 @@ namespace ForGlory {
 					var inherit = blood.GetComponent<ParticleSystem>().inheritVelocity;
 					inherit.curveMultiplier *= FGMain.BloodIntensity;
 				}
-				if (unit.GetComponent<RootDismemberment>() && unit.Team != FindOwnTeam() && explosion.damage >= unit.data.health * 0.2f && explosion.damage > 80f)
+				if (unit.GetComponent<RootDismemberment>() && unit.Team != FindOwnTeam() && explosion.damage >= unit.data.health * 0.2f && explosion.damage > 80f && unit.data.immunityForSeconds <= 0)
 				{
 					unit.GetComponent<RootDismemberment>().TryDismemberPart(transform.position);
 				}

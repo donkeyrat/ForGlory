@@ -40,7 +40,7 @@ namespace ForGlory
 						inherit.curveMultiplier *= goldenNumber;
 					}
 	
-					if (unit.GetComponent<RootDismemberment>() && unit.Team != FindOwnTeam() && collisionWeapon.damage >= unit.data.health * 0.2f)
+					if (unit.GetComponent<RootDismemberment>() && unit.Team != FindOwnTeam() && collisionWeapon.damage >= unit.data.health * 0.2f && unit.data.immunityForSeconds <= 0)
 					{
 						unit.GetComponent<RootDismemberment>().TryDismemberPart(collision.contacts[0].point);
 					}

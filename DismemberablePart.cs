@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Landfall.TABS;
+using TGCore;
 
 namespace ForGlory 
 {
@@ -103,6 +104,9 @@ namespace ForGlory
                 
                 var inherit = blood.GetComponent<ParticleSystem>().inheritVelocity;
                 inherit.curveMultiplier *= FGMain.BloodIntensity;
+                
+                var emission = blood.GetComponent<ParticleSystem>().emission;
+                emission.rateOverTimeMultiplier = FGMain.BloodAmount;
                 
                 var scale = blood.GetComponent<ParticleSystem>().main;
                 scale.startSizeMultiplier *= FGMain.BloodSize;

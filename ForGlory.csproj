@@ -178,6 +178,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TGCore">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Totally Accurate Battle Simulator\BepInEx\plugins\TGCore.dll</HintPath>
+    </Reference>
     <Reference Include="udpkit">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Totally Accurate Battle Simulator\TotallyAccurateBattleSimulator_Data\Managed\udpkit.dll</HintPath>
     </Reference>
@@ -456,7 +459,6 @@
     <Compile Include="CollisionBloodEffect.cs" />
     <Compile Include="DismemberablePart.cs" />
     <Compile Include="ExplosionBloodEffect.cs" />
-    <Compile Include="FGAddons.cs" />
     <Compile Include="FGLauncher.cs" />
     <Compile Include="FGMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

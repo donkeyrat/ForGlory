@@ -36,7 +36,7 @@ namespace ForGlory
 					var inherit = blood.GetComponent<ParticleSystem>().inheritVelocity;
 					inherit.curveMultiplier *= goldenNumber;
 				}
-				if (unit.GetComponent<RootDismemberment>() && !(GetComponent<TeamHolder>() && unit.Team == GetComponent<TeamHolder>().team) && projectileHit.damage >= unit.data.health * 0.2f)
+				if (unit.GetComponent<RootDismemberment>() && !(GetComponent<TeamHolder>() && unit.Team == GetComponent<TeamHolder>().team) && projectileHit.damage >= unit.data.health * 0.2f && unit.data.immunityForSeconds <= 0)
 				{
 					unit.GetComponent<RootDismemberment>().TryDismemberPart(hit.point);
 				}

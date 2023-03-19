@@ -4,7 +4,7 @@ using TGCore;
 
 namespace ForGlory 
 {
-	[BepInPlugin("teamgrad.forglory", "For Glory", "2.2.1")]
+	[BepInPlugin("teamgrad.forglory", "For Glory", "2.2.2")]
 	[BepInDependency("teamgrad.core")]
 	public class FGLauncher : TGMod 
 	{

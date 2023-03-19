@@ -73,6 +73,10 @@ The mod's [**Github**](https://github.com/donkeyrat/ForGlory) is now the only pl
 
  - Added TGCore as a dependency.
 
+ ### 2.2.2
+
+ - Fixed a problem with the Thunderstore page.
+
 ## Credits
 
 This mod was created by Team Grad, an ambitious mod team that aims to improve the game through adding a plethora of new content!
